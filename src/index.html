@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nevalis — Launcher</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+</head>
+<body>
+
+<div class="launcher" id="launcher">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-user">
+      <div class="user-row">
+        <div class="avatar" id="avatarCircle">?</div>
+        <div class="user-info">
+          <div class="name" id="userName">Non connecté <span class="badge-verified" id="verifiedBadge" style="display:none">✓</span></div>
+          <div class="role" id="userRole">Cliquez sur Se connecter</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item active" data-page="home">
+        <i class="ti ti-home nav-icon"></i> Accueil
+      </div>
+      <div class="nav-item" data-page="shop">
+        <i class="ti ti-shopping-bag nav-icon"></i> Boutique
+      </div>
+      <div class="nav-item" data-page="suivis">
+        <i class="ti ti-notebook nav-icon"></i> Suivis
+      </div>
+      <div class="nav-item" data-page="reglement">
+        <i class="ti ti-license nav-icon"></i> Règlement
+      </div>
+      <div class="nav-item" data-page="lore">
+        <i class="ti ti-book nav-icon"></i> Lore
+      </div>
+      <div class="nav-item" data-page="candidatures">
+        <i class="ti ti-clipboard-list nav-icon"></i> Candidatures
+      </div>
+      <div class="nav-item" data-page="patchnotes" id="navPatch">
+        <i class="ti ti-notes nav-icon"></i> Patch Notes
+      </div>
+      <div class="nav-item" data-page="tickets">
+        <i class="ti ti-message-circle nav-icon"></i> Tickets
+      </div>
+      <div class="nav-item muted" data-page="docs">
+        <i class="ti ti-file-text nav-icon"></i> Documentation
+      </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-version">v1.0.0 — Nevalis RP</div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <div class="hero-bg"></div>
+    <div class="hero-art"></div>
+    <div class="particles" id="particles"></div>
+    <div class="bottom-fade"></div>
+    <div class="left-fade"></div>
+
+    <!-- Barre de titre personnalisée -->
+    <div class="titlebar">
+      <div class="titlebar-drag"></div>
+      <div class="profile-pill" id="profilePill" onclick="handleProfileClick()">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <span class="profile-name" id="profileName">Se connecter</span>
+        <div class="online-dot" id="onlineDot" style="display:none"></div>
+      </div>
+      <div class="wm-buttons">
+        <button class="wm-btn" onclick="window.nevalis.minimize()" aria-label="Réduire"><i class="ti ti-minus"></i></button>
+        <button class="wm-btn" onclick="window.nevalis.maximize()" aria-label="Agrandir"><i class="ti ti-square"></i></button>
+        <button class="wm-btn close" onclick="window.nevalis.close()" aria-label="Fermer"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+
+    <!-- Contenu hero -->
+    <div class="hero-content">
+      <div class="server-logo">NE<span>V</span>ALIS</div>
+      <div class="server-tagline">Où chaque âme forge sa légende dans les brumes d'Aldrath</div>
+
+      <div class="cta-row">
+        <button class="btn-play" id="playBtn" onclick="handlePlay()">
+          <i class="ti ti-player-play"></i> <span id="playBtnText">Jouer</span>
+        </button>
+        <button class="btn-secondary" onclick="openModal('patchnotes')">
+          <i class="ti ti-notes"></i> Patch notes
+        </button>
+      </div>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-status" id="progressStatus">Vérification des mods...</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="game-log" id="gameLog"></div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards-row">
+      <div class="card" onclick="openModal('patchnotes')">
+        <div class="card-bg card-bg-patch"></div>
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-tag"><div class="dot purple"></div> Patch Notes</div>
+          <div>
+            <div class="card-title"><span>PATCH</span> 1.0</div>
+            <div class="card-date" id="patchDate">Chargement...</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('staff')">
+        <div class="card-bg card-bg-staff"></div>
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-tag"><div class="dot green"></div> Staff</div>
+          <div>
+            <div class="card-title">Candidature <span style="color:#4aaa70">staff</span></div>
+            <div class="card-date">Recrutement ouvert</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('actu')">
+        <div class="card-bg card-bg-actu"></div>
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-tag"><div class="dot pink"></div> Lore & RP</div>
+          <div>
+            <div class="card-title">Actus <span style="color:#cc6aaa">RP</span></div>
+            <div class="card-date">Nouvelle quête disponible</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal générique -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-header-left">
+            <span class="modal-tag" id="modalTag">Patch Note</span>
+            <span class="modal-title" id="modalTitle">DailyLog</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <span class="modal-date" id="modalDate"></span>
+            <button class="btn-icon" onclick="closeModal()"><i class="ti ti-x"></i></button>
+          </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+          <button class="btn-close-modal" onclick="closeModal()">Fermer</button>
+          <button class="btn-view-full" id="modalLinkBtn">Voir la note complète</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>
