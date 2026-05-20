@@ -1,24 +1,7 @@
 {
-  "_comment": "Héberge ce fichier sur : https://raw.githubusercontent.com/TON-PSEUDO/nevalis-launcher/main/manifest.json",
-  "_comment2": "Pour mettre à jour un mod : change url + md5, commit → tous les joueurs DL la diff au prochain lancement",
   "version": "1.0.0",
-  "mcVersion": "1.20.1",
-  "forgeVersion": "47.2.20",
-  "mods": [
-    {
-      "filename": "jei-forge-1.20.1-15.3.0.4.jar",
-      "url": "https://github.com/TON-PSEUDO/nevalis-launcher/releases/download/mods-v1.0/jei-forge-1.20.1-15.3.0.4.jar",
-      "md5": "REMPLACE_PAR_LE_MD5_DU_FICHIER"
-    },
-    {
-      "filename": "journeymap-1.20.1-5.9.18p1-forge.jar",
-      "url": "https://github.com/TON-PSEUDO/nevalis-launcher/releases/download/mods-v1.0/journeymap-1.20.1-5.9.18p1-forge.jar",
-      "md5": "REMPLACE_PAR_LE_MD5_DU_FICHIER"
-    },
-    {
-      "filename": "optifine-1.20.1-HD_U_I6.jar",
-      "url": "https://github.com/TON-PSEUDO/nevalis-launcher/releases/download/mods-v1.0/optifine-1.20.1-HD_U_I6.jar",
-      "md5": "REMPLACE_PAR_LE_MD5_DU_FICHIER"
-    }
-  ]
+  "minecraft": "1.20.1",
+  "forge": "1.20.1-47.3.0",
+  "updated": "2024-12-18",
+  "mods": []
 }

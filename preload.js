@@ -1,27 +1,36 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('nevalis', {
-  // Contrôles fenêtre
+  // Window controls
   minimize: () => ipcRenderer.send('window-minimize'),
   maximize: () => ipcRenderer.send('window-maximize'),
   close: () => ipcRenderer.send('window-close'),
+  openExternal: (url) => ipcRenderer.send('open-external', url),
 
-  // Authentification Microsoft
-  login: () => ipcRenderer.invoke('auth-login'),
-  logout: () => ipcRenderer.invoke('auth-logout'),
-  getProfile: () => ipcRenderer.invoke('auth-get-profile'),
+  // App info
+  getVersion: () => ipcRenderer.invoke('get-version'),
+  getPlatform: () => ipcRenderer.invoke('get-platform'),
 
-  // Mises à jour des mods
+  // Profile
+  getUsername: () => ipcRenderer.invoke('get-username'),
+  saveUsername: (data) => ipcRenderer.invoke('save-username', data),
+
+  // Install
+  isFirstInstall: () => ipcRenderer.invoke('is-first-install'),
+  markInstalled: () => ipcRenderer.invoke('mark-installed'),
+  installModpack: () => ipcRenderer.invoke('install-modpack'),
+
+  // Updates
   checkUpdates: () => ipcRenderer.invoke('check-updates'),
-  applyUpdates: (diff) => ipcRenderer.invoke('apply-updates', diff),
+  downloadMod: (mod) => ipcRenderer.invoke('download-mod', mod),
 
-  // Lancement du jeu
-  launchGame: (opts) => ipcRenderer.invoke('launch-game', opts),
+  // Launch
+  launchMinecraft: (opts) => ipcRenderer.invoke('launch-minecraft', opts),
 
-  // Écouteurs d'événements
-  onUpdateProgress: (cb) => ipcRenderer.on('update-progress', (_, data) => cb(data)),
-  onGameLog: (cb) => ipcRenderer.on('game-log', (_, line) => cb(line)),
-  onGameClosed: (cb) => ipcRenderer.on('game-closed', (_, code) => cb(code)),
+  // Mods
+  getModsList: () => ipcRenderer.invoke('get-mods-list'),
 
-  removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
+  // Events from main process
+  onModProgress: (cb) => ipcRenderer.on('mod-progress', (_, data) => cb(data)),
+  onLaunchStatus: (cb) => ipcRenderer.on('launch-status', (_, msg) => cb(msg)),
 });

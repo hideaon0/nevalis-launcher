@@ -1,43 +1,26 @@
 {
-  "_comment": "Ce fichier est à héberger sur ton serveur web : https://ton-serveur.fr/nevalis/manifest.json",
-  "_doc": "Le launcher compare ce manifest avec les mods locaux à chaque démarrage et lors du clic 'Jouer'",
-
   "version": "1.0.0",
-  "minecraft_version": "1.20.1",
-  "loader_type": "forge",
-  "loader_version": "47.2.17",
-  "server_address": "play.nevalis.fr",
-  "server_port": 25565,
-  "motd": "🏰 Bienvenue sur Nevalis ! Nouvelle mise à jour v2.3 : nouvelles quêtes et métiers ajoutés. Connectez-vous pour découvrir !\n✨ Prochain event RP : Samedi 20h — Le Tournoi des Forgerons",
-
+  "minecraft": "1.20.1",
+  "forge": "1.20.1-47.3.0",
+  "updated": "2024-12-18",
   "mods": [
     {
-      "filename": "jei-1.20.1-forge-15.2.0.27.jar",
-      "url": "https://ton-serveur.fr/nevalis/mods/jei-1.20.1-forge-15.2.0.27.jar",
-      "md5": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
-      "size": 1048576
+      "filename": "MouseTweaks-forge-mc1.20.1-2.25.jar",
+      "url": "https://github.com/hideaon0/nevalis-launcher/releases/download/mods-v1.0/MouseTweaks-forge-mc1.20.1-2.25.jar",
+      "md5": "REMPLACER_PAR_LE_MD5_REEL",
+      "name": "Mouse Tweaks"
     },
     {
-      "filename": "journeymap-1.20.1-5.9.18-forge.jar",
-      "url": "https://ton-serveur.fr/nevalis/mods/journeymap-1.20.1-5.9.18-forge.jar",
-      "md5": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5",
-      "size": 2097152
+      "filename": "jei-1.20.1-forge-15.3.0.4.jar",
+      "url": "https://github.com/hideaon0/nevalis-launcher/releases/download/mods-v1.0/jei-1.20.1-forge-15.3.0.4.jar",
+      "md5": "REMPLACER_PAR_LE_MD5_REEL",
+      "name": "Just Enough Items"
     },
     {
-      "filename": "ftb-chunks-forge-1902.3.22-build.390.jar",
-      "url": "https://ton-serveur.fr/nevalis/mods/ftb-chunks-forge-1902.3.22-build.390.jar",
-      "md5": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6",
-      "size": 524288
-    }
-  ],
-
-  "configs": [
-    {
-      "_comment": "Configs forcées = les joueurs ne peuvent pas les modifier",
-      "filename": "journeymap.cfg",
-      "url": "https://ton-serveur.fr/nevalis/configs/journeymap.cfg",
-      "md5": "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1",
-      "force": true
+      "filename": "BetterCombat-forge-1.20.1.jar",
+      "url": "https://github.com/hideaon0/nevalis-launcher/releases/download/mods-v1.0/BetterCombat-forge-1.20.1.jar",
+      "md5": "REMPLACER_PAR_LE_MD5_REEL",
+      "name": "Better Combat"
     }
   ]
 }

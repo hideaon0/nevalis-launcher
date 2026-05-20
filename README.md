@@ -1,169 +1,140 @@
-# ⚔️ Nevalis Launcher
+# ⚔ Nevalis Launcher
 
-Launcher officiel du serveur Minecraft RP **Nevalis** — mise à jour automatique des mods, authentification Microsoft, lancement Minecraft avec Forge.
+Launcher officiel du serveur Minecraft RP **Nevalis** (1.20.1 + Forge).
 
 ---
 
-## 🚀 Démarrage rapide
-
-### Prérequis
-- Node.js ≥ 18 ([nodejs.org](https://nodejs.org))
-- Java 17+ installé (pour lancer Minecraft)
-- Git
-
-### Installation locale
+## 🚀 Démarrage rapide (développeurs)
 
 ```bash
-git clone https://github.com/TON-PSEUDO/nevalis-launcher.git
-cd nevalis-launcher
 npm install
 npm start
 ```
 
 ---
 
-## ⚙️ Configuration (2 fichiers à modifier)
-
-### 1. URL du manifest — `launcher-core/mod-updater.js`
-
-```js
-const MANIFEST_URL =
-  'https://raw.githubusercontent.com/TON-PSEUDO/nevalis-launcher/main/manifest.json';
-```
-
-Remplace `TON-PSEUDO` par ton nom d'utilisateur GitHub.
-
-### 2. Version Minecraft — `launcher-core/minecraft-launcher.js`
-
-```js
-const MC_VERSION    = '1.20.1';
-const FORGE_VERSION = '47.2.20';
-const USE_FABRIC    = false;
-const SERVER_IP     = 'play.nevalis.fr';
-const MAX_RAM       = '4G';
-```
-
-### 3. Liens de navigation — `src/renderer.js`
-
-```js
-const EXTERNAL_PAGES = {
-  shop:         'https://boutique.nevalis.fr',
-  reglement:    'https://nevalis.fr/reglement',
-  // ...
-};
-```
-
----
-
-## 🌐 Hébergement gratuit (GitHub)
-
-### Manifest JSON
-
-Une fois ton repo public créé, le manifest est accessible à :
-
-```
-https://raw.githubusercontent.com/TON-PSEUDO/nevalis-launcher/main/manifest.json
-```
-
-C'est cette URL à coller dans `mod-updater.js`.
-
-### Mods (.jar)
-
-1. Repo GitHub → **Releases** → **Create a new release**
-2. Tag : `mods-v1.0`
-3. Glisse tous tes `.jar`
-4. Publie
-
-URLs des mods :
-```
-https://github.com/TON-PSEUDO/nevalis-launcher/releases/download/mods-v1.0/NOM_DU_MOD.jar
-```
-
-### Calculer les MD5
-
-```bash
-# Linux / macOS
-md5sum mon-mod.jar
-
-# Windows (PowerShell)
-certutil -hashfile mon-mod.jar MD5
-```
-
----
-
-## 📦 Compiler le launcher
-
-### Manuel
-
-```bash
-npm run build:win    # → dist/Nevalis Setup 1.0.0.exe
-npm run build:mac    # → dist/Nevalis-1.0.0.dmg
-npm run build:linux  # → dist/Nevalis-1.0.0.AppImage
-npm run build:all    # → les 3 en même temps
-```
-
-### Automatique via GitHub Actions
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-GitHub compile sur ses serveurs et crée une Release avec les 3 binaires automatiquement.
-
----
-
-## 🔄 Mettre à jour les mods (workflow admin)
-
-1. Upload le nouveau `.jar` dans une Release GitHub (ex: `mods-v1.1`)
-2. Calcule son MD5
-3. Édite `manifest.json` → change `url` + `md5`
-4. Commit → **tous les joueurs reçoivent la MAJ au prochain lancement** ✅
-
----
-
-## 📁 Structure du projet
+## 📦 Structure du projet
 
 ```
 nevalis-launcher/
-├── main.js                     ← Process Electron principal
-├── preload.js                  ← Pont IPC sécurisé
-├── package.json
-├── manifest.json               ← Modèle à héberger sur GitHub
-├── .github/workflows/build.yml ← CI/CD auto-build
+├── main.js                      ← Process Electron principal
+├── preload.js                   ← IPC sécurisé contextBridge
+├── package.json                 ← Config + electron-builder
+├── manifest-exemple.json        ← Template manifest mods
+├── .github/workflows/build.yml  ← CI/CD GitHub Actions
 ├── src/
-│   ├── index.html              ← UI (thème médiéval-fantasy)
-│   ├── style.css               ← Design sombre / violet
-│   └── renderer.js             ← Logique interface
-└── launcher-core/
-    ├── mod-updater.js          ← Comparaison MD5 + téléchargement
-    ├── minecraft-launcher.js   ← Lancement MC + Forge/Fabric
-    └── auth-manager.js         ← Auth Microsoft OAuth
+│   ├── index.html               ← Interface principale
+│   ├── style.css                ← Thème dark médiéval
+│   └── renderer.js              ← Logique UI
+└── modpack/
+    ├── mods/                    ← Vos .jar (embarqués dans l'installeur)
+    └── config/                  ← Configs personnalisées
 ```
 
 ---
 
-## 🆓 Limites gratuites GitHub
+## 🔧 Configuration initiale
 
-| Ressource | Limite | Suffisant ? |
-|---|---|---|
-| Stockage repo | 1 Go | ✅ |
-| Fichier par Release | 2 Go | ✅ |
-| Releases storage | Illimité | ✅ |
-| GitHub Actions | 2 000 min/mois | ✅ |
-| Bande passante | 1 Go/mois (raw) | ⚠️ voir ci-dessous |
+### 1. Remplacer "hideaon0"
 
-> **Astuce** : héberge `manifest.json` sur **Cloudflare Pages** (gratuit, bande passante illimitée) et garde les `.jar` sur GitHub Releases.
+Dans `main.js`, ligne contenant `MANIFEST_URL`, remplace `hideaon0` par ton pseudo GitHub :
+
+```js
+const MANIFEST_URL = 'https://raw.githubusercontent.com/MON-PSEUDO/nevalis-launcher/main/manifest.json';
+```
+
+### 2. Configurer le serveur
+
+Dans `main.js`, modifie les constantes du launcher :
+
+```js
+const MC_VERSION = '1.20.1';
+const FORGE_VERSION = '1.20.1-47.3.0';
+const SERVER_IP = 'play.nevalis.fr';     // ← Ton IP serveur
+```
+
+### 3. Ajouter les mods
+
+Copie tous tes `.jar` dans `modpack/mods/`. Ils seront automatiquement copiés dans `%AppData%/.nevalis/mods/` lors de la première ouverture du launcher.
 
 ---
 
-## 🎨 Personnalisation du design
+## 🔄 Système de mise à jour des mods
 
-- **Logo** : remplace le texte `NEVALIS` dans `src/index.html` par une balise `<img>`
-- **Fond hero** : ajoute une image d'artwork dans `src/` et référence-la dans `.hero-bg` ou `.hero-art` en CSS
-- **Couleur accent** : modifie `--accent: #6b4fff` dans `style.css`
-- **Icône** : place `icon.ico / icon.icns / icon.png` dans le dossier `assets/`
+### Héberger le manifest
+
+1. Upload tes `.jar` dans une **GitHub Release** (ex: `mods-v1.0`)
+2. Calcule le MD5 de chaque fichier :
+   - **Windows** : `certutil -hashfile mon-mod.jar MD5`
+   - **Mac/Linux** : `md5sum mon-mod.jar`
+3. Édite `manifest.json` sur GitHub (bouton ✏️) avec les vraies URLs et MD5
+4. Commit → tous les joueurs reçoivent la MAJ au prochain lancement ✅
+
+### Structure du manifest.json
+
+```json
+{
+  "version": "1.1.0",
+  "minecraft": "1.20.1",
+  "forge": "1.20.1-47.3.0",
+  "mods": [
+    {
+      "filename": "mon-mod.jar",
+      "url": "https://github.com/hideaon0/nevalis-launcher/releases/download/mods-v1.1/mon-mod.jar",
+      "md5": "abc123...",
+      "name": "Nom Lisible du Mod"
+    }
+  ]
+}
+```
 
 ---
 
-*Nevalis — Forge ta légende dans les brumes d'Aldrath* ⚔️
+## 🏗 Build & Distribution
+
+### Build local
+
+```bash
+npm run build:win    # → dist/Nevalis-Launcher-Setup-1.0.0.exe
+npm run build:mac    # → dist/Nevalis-Launcher-1.0.0.dmg
+npm run build:linux  # → dist/Nevalis-Launcher-1.0.0.AppImage
+```
+
+### Release automatique via GitHub Actions
+
+```bash
+git add .
+git commit -m "Release v1.0.0"
+git tag v1.0.0
+git push origin main --tags
+```
+
+GitHub Actions compile les 3 binaires et les publie automatiquement dans les Releases. ✅
+
+---
+
+## 📋 Prérequis joueurs
+
+- **Java 17+** ([télécharger](https://adoptium.net/))
+- Compte Minecraft (mode offline supporté)
+- Windows 10/11, macOS 11+, ou Linux (Ubuntu 20+)
+
+---
+
+## 🎨 Personnalisation UI
+
+Le thème est entièrement dans `src/style.css` via des variables CSS :
+
+```css
+--accent:  #c4943a;   /* Doré principal */
+--accent2: #7b6ef6;   /* Violet accent */
+--gold:    #d4af6a;   /* Textes dorés */
+```
+
+Pour changer l'artwork de fond, remplace la valeur de `.bg-artwork` dans le CSS.
+
+---
+
+## 📄 Licence
+
+Propriété de l'équipe Nevalis — usage interne uniquement.
